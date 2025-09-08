@@ -1,0 +1,41 @@
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.title {
+  margin: 0 0 6px 0;
+  color: #0b1021;
+}
+
+.subtitle {
+  margin: 0;
+  color: #4b5563;
+}
+
+.gridLinks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.linkCard {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0b1021;
+  text-decoration: none;
+}
+
+.linkCard:hover {
+  background: #f8fafc;
+}
+
+

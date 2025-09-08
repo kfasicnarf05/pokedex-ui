@@ -1,0 +1,48 @@
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.cardImg {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background: #fafafa;
+}
+
+.cardBody {
+  padding: 12px;
+  text-align: center;
+}
+
+.cardTitle {
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+

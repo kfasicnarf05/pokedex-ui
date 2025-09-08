@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Pokédex Resource Explorer — Next.js (App Router) + TypeScript
 
 ## Getting Started
 
-First, run the development server:
+Install and run the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 and you land straight on the Pokédex.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/pokemon` — Pokédex list with search, filters, sort, pagination
+- `/pokemon/[id]` — detail page with artwork, types and stats
+- `/favorites` — your starred Pokémon
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Debounced search (350ms) with smooth pagination
+- Full‑dex search: I fetch a compact list once so search works across pages
+- Type filter chips with reference colors and hover/active states
+- Sort by number, name (A–Z/Z–A) or Favorites
+- Favorites with optimistic star toggle persisted in `localStorage`
+- Detail view includes Pokéball, dex number, name, types, and stats
+- Cancellable fetches with `AbortController`, loading skeleton, retry on error
+- All styles use CSS Modules (no inline styles)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js App Router (server rendering on detail pages)
+- TypeScript with strict linting
+- CSS Modules for all styling
+- Native `fetch` + `AbortController`
 
-## Deploy on Vercel
+## Constants & variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `PAGE_SIZE` — items per page. Find it in `src/app/pokemon/page.tsx` near the top. Default: 24.
+- `apiUrl` — memoized URL for the current page fetch. Same file.
+- `debounced` — debounced search term state.
+- `allList` — one‑time cached list of all Pokémon (name + URL) so search/filters span the whole dex.
+- `typeMapRef` — in‑memory cache mapping Pokémon name → Set of types. Populated as cards are fetched.
+- `typeFilter` — currently selected type chip.
+- `sortBy` — current sort mode: `number`, `name`, `name-desc`, or `favorites`.
+- `filtered` — derived list after applying search, type/favorites filters and sort.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You'll find all of these in `src/app/pokemon/page.tsx`. Detail view types and styling live in `src/app/pokemon/[id]/`.
+
+## Notes
+
+- I kept the UI close to the provided reference (glassy header, gradient backdrop, colored chips).
+- If I had more time: URL‑synced state (q, type, sort, page), TanStack Query caching, and a theme toggle.

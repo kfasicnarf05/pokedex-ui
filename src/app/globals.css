@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --pokedex-red: #ef5350;
+  --pokedex-dark: #1f2937;
+  --pokedex-yellow: #ffca28;
+  --pokedex-light: #f8fafc;
 }
 
 @theme inline {
@@ -19,8 +23,9 @@
   }
 }
 
+html,
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
