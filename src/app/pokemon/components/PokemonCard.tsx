@@ -11,7 +11,7 @@ type PokemonCardProps = {
   };
 };
 
-// PokemonCard - displays individual Pokemon card with navigation
+// PokemonCard - displays individual Pokemon card with navigation - Made by KFAquinoDev
 export default function PokemonCard({ pokemon }: PokemonCardProps) {
   const id = pokemon.url.split("/").filter(Boolean).pop();
   const img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;

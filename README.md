@@ -2,6 +2,8 @@
 
 A modern, responsive Pokemon exploration app built with Next.js 15, TypeScript, and CSS Modules. Features real-time search, filtering, sorting, and detailed Pokemon information with modal overlays.
 
+**Made by [KFAquinoDev](https://kfadev-portfolio.vercel.app/)**
+
 ## 🚀 Features
 
 ### Core Features
@@ -173,6 +175,14 @@ No environment variables required - uses public PokeAPI.
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+## 👨‍💻 Developer
+
+**Kyle Francis Aquino** - Front End Developer & Designer
+
+- **Portfolio**: [kfadev-portfolio.vercel.app](https://kfadev-portfolio.vercel.app/)
+- **Email**: kfaquinodev@gmail.com
+- **Location**: Laguna, Philippines
 
 ## 🙏 Acknowledgments
 

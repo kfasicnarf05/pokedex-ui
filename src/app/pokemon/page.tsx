@@ -1,5 +1,5 @@
 /**
- * Pokemon List Page Entry Point
+ * Pokemon List Page Entry Point - Made by KFAquinoDev
  * 
  * This file serves as the entry point for the Pokemon list page.
  * It wraps the PokemonListPageWrapper component in a Suspense boundary

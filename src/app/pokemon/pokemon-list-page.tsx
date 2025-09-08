@@ -1,5 +1,5 @@
 /**
- * Pokemon List Page Component
+ * Pokemon List Page Component - Made by KFAquinoDev
  * 
  * This is the main component that renders the Pokemon list with filtering, sorting,
  * and pagination capabilities. It uses custom hooks for state management and data
