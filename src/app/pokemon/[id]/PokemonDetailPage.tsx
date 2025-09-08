@@ -1,12 +1,4 @@
 "use client";
-/**
- * Pokemon Detail Page Component
- * 
- * This component displays detailed information about a specific Pokemon,
- * including its image, stats, types, and other characteristics.
- * Fetches data from PokeAPI based on the Pokemon ID from the URL.
- */
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FavoriteToggle } from "../favorites.client";
@@ -46,13 +38,14 @@ interface PokemonData {
   types: PokemonType[];
 }
 
+// PokemonDetailPage - displays detailed Pokemon information
 export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   const [pokemon, setPokemon] = useState<PokemonData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pokemonId, setPokemonId] = useState<string | null>(null);
 
-  // Unwrap the params Promise
+  // Unwrap params Promise
   useEffect(() => {
     params.then((resolvedParams) => {
       setPokemonId(resolvedParams.id);
@@ -157,9 +150,9 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
             ))}
           </div>
           
-          <div>
-            <h3>Base Stats</h3>
-            <ul className={styles.stats}>
+                    <div>
+                      <h3 className={styles.statsHeading}>Base Stats</h3>
+                      <ul className={styles.stats}>
               {pokemon.stats.map((stat) => (
                 <li key={stat.stat.name}>
                   <span className={styles.statName}>{stat.stat.name}:</span>

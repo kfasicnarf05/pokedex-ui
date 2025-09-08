@@ -72,10 +72,47 @@ export function useScrollRestoration() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     window.addEventListener("scroll", handleScroll, { passive: true });
 
+    // Listen for popstate events (back/forward navigation)
+    const handlePopState = () => {
+      // Small delay to ensure the page has loaded
+      setTimeout(() => {
+        const savedPosition = scrollPositionRef.current[pageKey];
+        if (savedPosition) {
+          isRestoringRef.current = true;
+          requestAnimationFrame(() => {
+            window.scrollTo(0, savedPosition);
+            isRestoringRef.current = false;
+          });
+        }
+      }, 100);
+    };
+
+    // Listen for route changes (including modal navigation)
+    const handleRouteChange = () => {
+      // Save current position before any route change
+      saveScrollPosition();
+    };
+
+    // Listen for intercepting route navigation
+    const handleInterceptingRoute = () => {
+      // When navigating to a Pokemon detail page, save current position
+      const currentPath = window.location.pathname;
+      if (currentPath.includes('/pokemon/') && currentPath !== '/pokemon') {
+        saveScrollPosition();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("beforeunload", handleRouteChange);
+    window.addEventListener("click", handleInterceptingRoute);
+
     return () => {
       clearTimeout(scrollTimeout);
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("beforeunload", handleRouteChange);
+      window.removeEventListener("click", handleInterceptingRoute);
       saveScrollPosition(); // Save on cleanup
     };
   }, [pageKey]);

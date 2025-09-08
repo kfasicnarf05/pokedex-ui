@@ -9,38 +9,63 @@ type ModalProps = {
 
 export default function Modal({ children }: ModalProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const [isClosing, setIsClosing] = useState(false);
   const router = useRouter();
 
   const handleClose = useCallback(() => {
-    setIsVisible(false);
-    // Small delay to allow animation
+    setIsClosing(true);
+    // Wait for fade-out animation to complete
     setTimeout(() => {
+      setIsVisible(false);
+      // Restore scroll position before navigating back
+      const savedPositions = sessionStorage.getItem("scrollPositions");
+      if (savedPositions) {
+        try {
+          const positions = JSON.parse(savedPositions);
+          const currentPath = window.location.pathname + window.location.search;
+          const savedPosition = positions[currentPath];
+          if (savedPosition) {
+            // Restore scroll position after navigation
+            setTimeout(() => {
+              window.scrollTo(0, savedPosition);
+            }, 300);
+          }
+        } catch {
+          // Ignore parsing errors
+        }
+      }
       router.back();
-    }, 150);
+    }, 200); // Match the CSS animation duration
   }, [router]);
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
         handleClose();
       }
     };
 
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
       if (target.classList.contains(styles.backdrop)) {
         handleClose();
       }
     };
 
-    // Prevent body scroll
-    document.body.style.overflow = "hidden";
+    // Calculate scrollbar width to prevent layout shift
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
+    // Prevent body scroll and maintain scrollbar space
+    document.body.classList.add("modalOpen");
+    document.documentElement.style.setProperty("--scrollbar-width", `${scrollbarWidth}px`);
 
     document.addEventListener("keydown", handleEscape);
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.body.style.overflow = "unset";
+      // Restore body scroll
+      document.body.classList.remove("modalOpen");
+      document.documentElement.style.removeProperty("--scrollbar-width");
       document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("click", handleClickOutside);
     };
@@ -51,8 +76,8 @@ export default function Modal({ children }: ModalProps) {
   }
 
   return (
-    <div className={`${styles.backdrop} ${isVisible ? styles.visible : styles.hidden}`}>
-      <div className={styles.modal}>
+    <div className={`${styles.backdrop} ${isClosing ? styles.closing : ''}`}>
+      <div className={`${styles.modal} ${isClosing ? styles.closing : ''}`}>
         <button className={styles.closeButton} onClick={handleClose} aria-label="Close">
           ×
         </button>

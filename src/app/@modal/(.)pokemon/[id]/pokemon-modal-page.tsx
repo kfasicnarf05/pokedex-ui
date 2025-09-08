@@ -1,17 +1,10 @@
 "use client";
-/**
- * Pokemon Modal Page Component
- * 
- * This component displays Pokemon details in a modal overlay when accessed
- * via intercepting routes. It reuses the same Pokemon detail logic but
- * wraps it in a modal interface for better UX when navigating from the list.
- */
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Modal from "../../Modal.client";
 import { FavoriteToggle } from "../../../pokemon/favorites.client";
 import styles from "../../../pokemon/[id]/pokemon-detail.module.css";
+import modalStyles from "../../modal.module.css";
 
 interface PokemonModalPageProps {
   params: Promise<{ id: string }>;
@@ -47,13 +40,14 @@ interface PokemonData {
   types: PokemonType[];
 }
 
+// PokemonModalPage - displays Pokemon details in modal overlay
 export default function PokemonModalPage({ params }: PokemonModalPageProps) {
   const [pokemon, setPokemon] = useState<PokemonData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pokemonId, setPokemonId] = useState<string | null>(null);
 
-  // Unwrap the params Promise
+  // Unwrap params Promise
   useEffect(() => {
     params.then((resolvedParams) => {
       setPokemonId(resolvedParams.id);
@@ -93,8 +87,8 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
   if (loading) {
     return (
       <Modal>
-        <div className={styles.wrapper}>
-          <div>Loading Pokemon details...</div>
+        <div className={modalStyles.loadingState}>
+          Loading...
         </div>
       </Modal>
     );
@@ -164,9 +158,9 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
               ))}
             </div>
             
-            <div>
-              <h3>Base Stats</h3>
-              <ul className={styles.stats}>
+                      <div>
+                        <h3 className={styles.statsHeading}>Base Stats</h3>
+                        <ul className={styles.stats}>
                 {pokemon.stats.map((stat) => (
                   <li key={stat.stat.name}>
                     <span className={styles.statName}>{stat.stat.name}:</span>

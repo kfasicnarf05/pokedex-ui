@@ -15,19 +15,18 @@
  */
 
 "use client";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 import VirtualizedPokemonList from "./components/VirtualizedPokemonList";
 import { usePokemonFilters } from "./hooks/usePokemonFilters";
 import { usePokemonData } from "./hooks/usePokemonData";
 import { usePokemonSearch } from "./hooks/usePokemonSearch";
 import { useScrollRestoration } from "./hooks/useScrollRestoration";
-import { useFocusManagement } from "./hooks/useFocusManagement";
 import styles from "./pokemon.module.css";
 
 // ===== CONSTANTS =====
 const PAGE_SIZE = 24; // Number of Pokemon to display per page
 
-export default function PokemonListPage() {
+function PokemonListPage() {
   // ===== CUSTOM HOOKS =====
   // Use custom hooks for state management and data fetching
   const { 
@@ -63,32 +62,32 @@ export default function PokemonListPage() {
     PAGE_SIZE
   );
 
-  // Use scroll restoration and focus management
   const { saveCurrentPosition, scrollToTop } = useScrollRestoration();
-  const { } = useFocusManagement(); // Focus management is handled automatically
+
+
 
   // ===== EFFECTS =====
-  // Skip individual Pokemon type fetching for better performance
-  // Types will be loaded via the type filter API when needed
   useEffect(() => {
-    // This useEffect is now empty as individual Pokemon type fetching is removed
-    // typeMapRef.current = new Map(); // No longer needed
-  }, [page]); // Dependency array kept for consistency, but effect is empty
+    // Empty effect - types loaded via filter API when needed
+  }, [page]);
+
+
+  // Preserve scroll position when modal opens/closes
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      saveCurrentPosition();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [saveCurrentPosition]);
 
   // ===== EVENT HANDLERS =====
-  // Handle page changes with smooth scrolling and focus management
   const handlePageChange = (newPage: number) => {
-    saveCurrentPosition(); // Save current scroll position
+    saveCurrentPosition();
     setPage(newPage);
-    scrollToTop(); // Smooth scroll to top for new page
+    scrollToTop();
   };
-
-  // Handle search/filter changes - scroll to top for new results
-  useEffect(() => {
-    if (query || typeFilters.length > 0) {
-      scrollToTop();
-    }
-  }, [query, typeFilters, scrollToTop]);
 
   // ===== RENDER =====
   return (
@@ -190,3 +189,6 @@ export default function PokemonListPage() {
     </div>
   );
 }
+
+// Wrap with memo to prevent unnecessary re-renders during modal navigation
+export default memo(PokemonListPage);

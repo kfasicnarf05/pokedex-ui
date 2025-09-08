@@ -1,125 +1,138 @@
 .wrapper {
-  max-width: 900px;
+  padding: 1rem;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
-}
-
-.back {
-  display: inline-block;
-  margin-bottom: 12px;
-  text-decoration: none;
 }
 
 .card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 16px;
-  padding: 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 0 rgba(2,6,23,0.06), 0 14px 22px rgba(2,6,23,0.12);
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .image {
   width: 100%;
   height: auto;
   object-fit: contain;
-  background: #fafafa;
 }
 
-.body {}
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 .headerRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.dex { color: #64748b; font-weight: 700; }
+.dex {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
 
 .favoriteInHeader {
   margin-left: auto;
 }
 
-/* Make favorite button bigger in header */
-.favoriteInHeader :global(.fav-toggle) {
-  font-size: 28px !important;
-  line-height: 1;
-  transform: none;
-}
-
-.favoriteInHeader :global(.fav-toggle:hover) {
-  transform: scale(1.1);
-}
-
 .title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0;
   text-transform: capitalize;
-  margin: 0 0 8px 0;
-  color: #0b1021;
-  font-weight: 800;
 }
 
 .meta {
   display: flex;
-  gap: 12px;
-  font-size: 14px;
-  margin-bottom: 8px;
-  color: #0b1021;
+  gap: 1rem;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
 .types {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .type {
-  text-transform: capitalize;
-  padding: 4px 8px;
+  padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  background: #e2e8f0;
-  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: white;
 }
-
-/* type chip colors */
-.normal { background-color: #A8A878; }
-.fire { background-color: #F08030; }
-.water { background-color: #6890F0; }
-.electric { background-color: #F8D030; color: #1f2937; }
-.grass { background-color: #78C850; }
-.ice { background-color: #98D8D8; color: #1f2937; }
-.fighting { background-color: #C03028; }
-.poison { background-color: #A040A0; }
-.ground { background-color: #E0C068; color: #1f2937; }
-.flying { background-color: #A890F0; }
-.psychic { background-color: #F85888; }
-.bug { background-color: #A8B820; }
-.rock { background-color: #B8A038; }
-.ghost { background-color: #705898; }
-.dragon { background-color: #7038F8; }
-.dark { background-color: #705848; }
-.steel { background-color: #B8B8D0; color: #1f2937; }
-.fairy { background-color: #EE99AC; }
 
 .stats {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 8px;
-  color: #0b1021;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.statsHeading {
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem 0;
 }
 
 .statName {
-  text-transform: capitalize;
+  font-weight: 500;
+  color: #374151;
 }
 
 .statVal {
-  font-weight: 700;
-  margin-left: 6px;
+  font-weight: bold;
+  color: #1f2937;
 }
 
+/* Pokemon type colors */
+.normal { background-color: #a8a878; }
+.fire { background-color: #f08030; }
+.water { background-color: #6890f0; }
+.electric { background-color: #f8d030; }
+.grass { background-color: #78c850; }
+.ice { background-color: #98d8d8; }
+.fighting { background-color: #c03028; }
+.poison { background-color: #a040a0; }
+.ground { background-color: #e0c068; }
+.flying { background-color: #a890f0; }
+.psychic { background-color: #f85888; }
+.bug { background-color: #a8b820; }
+.rock { background-color: #b8a038; }
+.ghost { background-color: #705898; }
+.dragon { background-color: #7038f8; }
+.dark { background-color: #705848; }
+.steel { background-color: #b8b8d0; }
+.fairy { background-color: #ee99ac; }
 
-
+/* Responsive design */
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}

@@ -11,6 +11,7 @@ type PokemonCardProps = {
   };
 };
 
+// PokemonCard - displays individual Pokemon card with navigation
 export default function PokemonCard({ pokemon }: PokemonCardProps) {
   const id = pokemon.url.split("/").filter(Boolean).pop();
   const img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -25,6 +26,7 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
         className={styles.cardLink}
         id={`pokemon-card-${id}`}
         data-focus-id={`pokemon-card-${id}`}
+        scroll={false}
       >
         <Image 
           src={img} 
