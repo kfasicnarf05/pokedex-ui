@@ -1,10 +1,5 @@
 .container {
   width: 100%;
-  transition: opacity 0.2s ease;
-}
-
-.container.transitioning {
-  opacity: 0.7;
 }
 
 .grid {
@@ -51,4 +46,38 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
   }
+}
+
+/* Empty State Styles */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px;
+  text-align: center;
+  min-height: 400px;
+  color: #ffffff;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff;
+  max-width: 400px;
+  line-height: 1.5;
+  opacity: 0.9;
 }

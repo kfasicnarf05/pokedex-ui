@@ -16,6 +16,7 @@
 
 "use client";
 import { useMemo } from "react";
+import { useFavorites } from "./useFavorites";
 
 type NamedResource = { name: string; url: string };
 
@@ -35,6 +36,9 @@ export function usePokemonSearch(
   pageSize: number
 ): UsePokemonSearchReturn {
   
+  // Use the favorites hook to get real-time favorites updates
+  const { getFavoriteNames } = useFavorites();
+  
   // ===== FILTERING AND SEARCHING LOGIC =====
   const filteredPokemon = useMemo(() => {
     // Determine data source (prefer full list for search/filtering)
@@ -47,14 +51,8 @@ export function usePokemonSearch(
     // ===== FAVORITES FILTERING =====
     // Apply favorites filter if sorting by favorites
     if (sortBy === "favorites") {
-      try {
-        const rawFavorites = localStorage.getItem("favorites");
-        const favorites: { id: string; name: string }[] = rawFavorites ? JSON.parse(rawFavorites) : [];
-        const favoriteNames = new Set(favorites.map((fav) => fav.name));
-        base = base.filter((pokemon) => favoriteNames.has(pokemon.name));
-      } catch {
-        // Ignore localStorage errors
-      }
+      const favoriteNames = getFavoriteNames();
+      base = base.filter((pokemon) => favoriteNames.has(pokemon.name));
     }
 
     // ===== TYPE FILTERING =====
@@ -89,7 +87,7 @@ export function usePokemonSearch(
     });
 
     return base;
-  }, [query, typeFilters, sortBy, allList, pageDataset, typeToPokemonMap, typeLoading]);
+  }, [query, typeFilters, sortBy, allList, pageDataset, typeToPokemonMap, typeLoading, getFavoriteNames]);
 
   // ===== PAGINATION CALCULATION =====
   const totalPages = useMemo(() => {

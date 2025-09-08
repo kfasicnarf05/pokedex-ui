@@ -8,7 +8,7 @@
 import PokemonDetailPage from "./PokemonDetailPage";
 
 interface PokemonDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default function PokemonDetailPageEntry({ params }: PokemonDetailPageProps) {

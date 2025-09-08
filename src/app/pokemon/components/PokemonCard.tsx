@@ -20,7 +20,12 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
 
   return (
     <div className={styles.card}>
-      <Link href={`/pokemon/${id}`} className={styles.cardLink}>
+      <Link 
+        href={`/pokemon/${id}`} 
+        className={styles.cardLink}
+        id={`pokemon-card-${id}`}
+        data-focus-id={`pokemon-card-${id}`}
+      >
         <Image 
           src={img} 
           alt={`${pokemon.name} artwork`} 

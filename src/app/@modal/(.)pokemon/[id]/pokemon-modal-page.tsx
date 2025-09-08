@@ -147,6 +147,9 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
             <div className={styles.headerRow}>
               <Image src="/pokeball.svg" alt="Pokéball" width={16} height={16} />
               <span className={styles.dex}>{formatDexNumber(pokemon.id)}</span>
+              <div className={styles.favoriteInHeader}>
+                <FavoriteToggle id={String(pokemon.id)} name={pokemon.name} />
+              </div>
             </div>
             
             <h1 className={styles.title}>{pokemon.name}</h1>
@@ -177,10 +180,6 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
                   </li>
                 ))}
               </ul>
-            </div>
-            
-            <div>
-              <FavoriteToggle id={String(pokemon.id)} name={pokemon.name} />
             </div>
           </div>
         </div>

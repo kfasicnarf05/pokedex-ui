@@ -37,8 +37,8 @@
 .filtersBar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 24px;
   margin-bottom: 16px;
   padding: 16px;
   background: rgba(255,255,255,0.9);
@@ -63,7 +63,19 @@
   border-radius: 12px;
 }
 
-.typeChips { display: flex; flex-wrap: wrap; gap: 8px; }
+.typeChips { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  align-items: center;
+}
+
+.typeChipsSecondRow { 
+  display: flex; 
+  gap: 8px; 
+  margin-top: 8px;
+  align-items: center;
+}
 .chip { 
   padding: 6px 12px;
   border-radius: 15px;
@@ -77,6 +89,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  height: 32px;
+  box-sizing: border-box;
+  line-height: 1;
 }
 .chip:hover { 
   opacity: 1; 
@@ -96,6 +111,9 @@
   font-size: 10px;
   font-weight: bold;
   opacity: 0.9;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 .clearAll {
   background: #6b7280 !important;
@@ -127,7 +145,14 @@
 .chip.steel { background-color: #B8B8D0; color: #1f2937; }
 .chip.fairy { background-color: #EE99AC; }
 
-.sortGroup { display: flex; align-items: center; gap: 8px; color: #0b1021; }
+.sortGroup { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  color: #0b1021; 
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
 .select {
   padding: 8px 10px;

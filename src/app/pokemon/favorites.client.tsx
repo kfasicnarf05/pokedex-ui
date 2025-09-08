@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useTransition } from "react";
+import { dispatchFavoritesUpdate } from "./hooks/useFavorites";
 
 export function FavoriteToggle({ id, name }: { id: string; name: string }) {
   const [isFav, setIsFav] = useState(false);
@@ -39,6 +40,9 @@ export function FavoriteToggle({ id, name }: { id: string; name: string }) {
         }
         
         localStorage.setItem("favorites", JSON.stringify(arr));
+        
+        // Dispatch event to notify other components
+        dispatchFavoritesUpdate();
       } catch (error) {
         // Revert optimistic update on error
         setIsFav(!newFavState);

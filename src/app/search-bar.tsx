@@ -12,7 +12,7 @@
  */
 
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import styles from "./layout.module.css";
 
@@ -24,27 +24,46 @@ export default function SearchBar() {
   
   // Initialize search query from URL parameters
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
 
   // ===== URL SYNCHRONIZATION =====
   // Keep the search query in sync with URL parameters
   useEffect(() => {
-    setQuery(searchParams.get("q") ?? "");
+    const urlQuery = searchParams.get("q") ?? "";
+    setQuery(urlQuery);
+    setDebouncedQuery(urlQuery);
   }, [searchParams]);
 
-  // ===== EVENT HANDLERS =====
-  // Handle search input changes and update URL
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = e.target.value;
-    setQuery(newQuery);
-    
-    // Update URL with search query
+  // ===== DEBOUNCED URL UPDATE =====
+  // Update URL after debounce delay (400ms)
+  const updateURL = useCallback((searchQuery: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (newQuery.trim()) {
-      params.set("q", newQuery.trim());
+    if (searchQuery.trim()) {
+      params.set("q", searchQuery.trim());
     } else {
       params.delete("q");
     }
     router.replace(`${pathname}?${params.toString()}`);
+  }, [searchParams, router, pathname]);
+
+  // Debounce the URL update
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (debouncedQuery !== query) {
+        setDebouncedQuery(query);
+        updateURL(query);
+      }
+    }, 400); // 400ms debounce delay
+
+    return () => clearTimeout(timeoutId);
+  }, [query, debouncedQuery, updateURL]);
+
+  // ===== EVENT HANDLERS =====
+  // Handle search input changes (immediate UI update, debounced URL update)
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery); // Immediate UI update
+    // URL update is handled by the debounced effect above
   };
 
   // ===== RENDER =====

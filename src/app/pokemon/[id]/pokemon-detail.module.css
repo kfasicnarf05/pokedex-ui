@@ -38,6 +38,21 @@
 
 .dex { color: #64748b; font-weight: 700; }
 
+.favoriteInHeader {
+  margin-left: auto;
+}
+
+/* Make favorite button bigger in header */
+.favoriteInHeader :global(.fav-toggle) {
+  font-size: 28px !important;
+  line-height: 1;
+  transform: none;
+}
+
+.favoriteInHeader :global(.fav-toggle:hover) {
+  transform: scale(1.1);
+}
+
 .title {
   text-transform: capitalize;
   margin: 0 0 8px 0;

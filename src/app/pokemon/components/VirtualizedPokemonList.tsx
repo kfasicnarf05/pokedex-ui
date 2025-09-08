@@ -17,32 +17,34 @@ export default function VirtualizedPokemonList({
   pageSize 
 }: VirtualizedPokemonListProps) {
   const [itemsPerPage, setItemsPerPage] = useState<NamedResource[]>([]);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const newItems = pokemon.slice((page - 1) * pageSize, page * pageSize);
-    
-    if (newItems.length > 0) {
-      setIsTransitioning(true);
-      // Small delay to allow fade out
-      setTimeout(() => {
-        setItemsPerPage(newItems);
-        setIsTransitioning(false);
-      }, 100);
-    } else {
-      setItemsPerPage(newItems);
-    }
+    setItemsPerPage(newItems);
   }, [pokemon, page, pageSize]);
 
+  // Show empty state when no Pokemon are available
+  if (itemsPerPage.length === 0 && pokemon.length === 0) {
+    return (
+      <div className={styles.emptyState}>
+        <div className={styles.emptyIcon}>🔍</div>
+        <h3 className={styles.emptyTitle}>No Pokémon found</h3>
+        <p className={styles.emptyMessage}>
+          Try adjusting your search terms or filters to find more Pokémon.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className={`${styles.container} ${isTransitioning ? styles.transitioning : ''}`}>
+    <div className={styles.container}>
       <ul className={styles.grid}>
         {itemsPerPage.map((pokemonItem, index) => (
           <li 
             key={pokemonItem.name} 
             className={styles.cell}
             style={{ 
-              animationDelay: `${index * 0.05}s`,
+              animationDelay: `${index * 0.03}s`,
               animationFillMode: 'both'
             }}
           >

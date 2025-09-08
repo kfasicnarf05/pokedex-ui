@@ -15,11 +15,13 @@
  */
 
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import VirtualizedPokemonList from "./components/VirtualizedPokemonList";
 import { usePokemonFilters } from "./hooks/usePokemonFilters";
 import { usePokemonData } from "./hooks/usePokemonData";
 import { usePokemonSearch } from "./hooks/usePokemonSearch";
+import { useScrollRestoration } from "./hooks/useScrollRestoration";
+import { useFocusManagement } from "./hooks/useFocusManagement";
 import styles from "./pokemon.module.css";
 
 // ===== CONSTANTS =====
@@ -43,7 +45,6 @@ export default function PokemonListPage() {
   const { 
     data, 
     allList, 
-    loading, 
     error, 
     typeToPokemonMap, 
     typeLoading: dataTypeLoading, 
@@ -62,9 +63,9 @@ export default function PokemonListPage() {
     PAGE_SIZE
   );
 
-  // ===== REFS =====
-  // Keep track of type cache for current page (legacy, may be removed)
-  const typeMapRef = useRef<Map<string, Set<string>>>(new Map());
+  // Use scroll restoration and focus management
+  const { saveCurrentPosition, scrollToTop } = useScrollRestoration();
+  const { } = useFocusManagement(); // Focus management is handled automatically
 
   // ===== EFFECTS =====
   // Skip individual Pokemon type fetching for better performance
@@ -75,11 +76,19 @@ export default function PokemonListPage() {
   }, [page]); // Dependency array kept for consistency, but effect is empty
 
   // ===== EVENT HANDLERS =====
-  // Handle page changes with smooth scrolling
+  // Handle page changes with smooth scrolling and focus management
   const handlePageChange = (newPage: number) => {
+    saveCurrentPosition(); // Save current scroll position
     setPage(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop(); // Smooth scroll to top for new page
   };
+
+  // Handle search/filter changes - scroll to top for new results
+  useEffect(() => {
+    if (query || typeFilters.length > 0) {
+      scrollToTop();
+    }
+  }, [query, typeFilters, scrollToTop]);
 
   // ===== RENDER =====
   return (
@@ -105,9 +114,9 @@ export default function PokemonListPage() {
               </button>
             )}
 
-            {/* Type filter chips */}
+            {/* Type filter chips - First row */}
             {[
-              "normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy",
+              "normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","rock","ghost","dragon","dark","steel","fairy",
             ].map((type) => (
               <button
                 key={type}
@@ -120,6 +129,19 @@ export default function PokemonListPage() {
                 {typeFilters.includes(type) && <span className={styles.checkmark}>✓</span>}
               </button>
             ))}
+            
+            {/* Second row for bug type */}
+            <div className={styles.typeChipsSecondRow}>
+              <button
+                type="button"
+                className={`${styles.chip} ${styles.bug} ${typeFilters.includes("bug") ? styles.chipActive : ""}`}
+                onClick={() => toggleTypeFilter("bug")}
+                title="Filter by bug type"
+              >
+                bug
+                {typeFilters.includes("bug") && <span className={styles.checkmark}>✓</span>}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -141,7 +163,6 @@ export default function PokemonListPage() {
       </div>
 
       {/* Loading and error states */}
-      {loading && <div className={styles.skeleton}>Loading Pokémon…</div>}
       {dataTypeLoading && <div className={styles.skeleton}>Loading type filter…</div>}
       {error && (
         <div role="alert" className={styles.error}>
@@ -164,7 +185,7 @@ export default function PokemonListPage() {
         <button
           className={styles.pageBtn}
           onClick={() => handlePageChange(Math.max(1, page - 1))}
-          disabled={page === 1 || loading}
+          disabled={page === 1 || dataTypeLoading}
         >
           Previous
         </button>
@@ -174,7 +195,7 @@ export default function PokemonListPage() {
         <button
           className={styles.pageBtn}
           onClick={() => handlePageChange(page + 1)}
-          disabled={!!totalPages && page >= totalPages || loading}
+          disabled={!!totalPages && page >= totalPages || dataTypeLoading}
         >
           Next
         </button>

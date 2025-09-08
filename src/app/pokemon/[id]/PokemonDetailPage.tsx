@@ -14,7 +14,7 @@ import { FavoriteToggle } from "../favorites.client";
 import styles from "./pokemon-detail.module.css";
 
 interface PokemonDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 interface PokemonStat {
@@ -51,14 +51,24 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   const [pokemon, setPokemon] = useState<PokemonData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [pokemonId, setPokemonId] = useState<string | null>(null);
+
+  // Unwrap the params Promise
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setPokemonId(resolvedParams.id);
+    });
+  }, [params]);
 
   useEffect(() => {
+    if (!pokemonId) return;
+
     const fetchPokemon = async () => {
       try {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.id}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
         
         if (!response.ok) {
           throw new Error(`Failed to fetch Pokemon: ${response.status}`);
@@ -76,7 +86,7 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
     };
 
     fetchPokemon();
-  }, [params.id]);
+  }, [pokemonId]);
 
   const formatDexNumber = (id: number) => `#${id.toString().padStart(3, "0")}`;
 
@@ -134,6 +144,9 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
           <div className={styles.headerRow}>
             <Image src="/pokeball.svg" alt="Pokéball" width={16} height={16} />
             <span className={styles.dex}>{formatDexNumber(pokemon.id)}</span>
+            <div className={styles.favoriteInHeader}>
+              <FavoriteToggle id={String(pokemon.id)} name={pokemon.name} />
+            </div>
           </div>
           
           <h1 className={styles.title}>{pokemon.name}</h1>
@@ -164,10 +177,6 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
                 </li>
               ))}
             </ul>
-          </div>
-          
-          <div>
-            <FavoriteToggle id={String(pokemon.id)} name={pokemon.name} />
           </div>
         </div>
       </div>
