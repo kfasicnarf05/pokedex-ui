@@ -47,7 +47,7 @@ export function usePokemonFilters(): UsePokemonFiltersReturn {
   const [sortBy, setSortBy] = useState<"number" | "name" | "name-desc" | "favorites">(
     () => ((searchParams.get("sort") as "number" | "name" | "name-desc" | "favorites") || "number")
   );
-  const [typeLoading, setTypeLoading] = useState(false);
+  const [typeLoading] = useState(false);
 
   // Get search query from URL (managed by search bar component)
   const query = searchParams.get("q") ?? "";

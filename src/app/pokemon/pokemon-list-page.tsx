@@ -49,7 +49,7 @@ export default function PokemonListPage() {
     typeToPokemonMap, 
     typeLoading: dataTypeLoading, 
     retry 
-  } = usePokemonData(page, typeFilters, (loading) => {}, setPage);
+  } = usePokemonData(page, typeFilters, () => {}, setPage);
 
   // Apply search, filtering, and sorting to Pokemon data
   const { filteredPokemon, totalPages } = usePokemonSearch(
@@ -114,9 +114,9 @@ export default function PokemonListPage() {
               </button>
             )}
 
-            {/* Type filter chips - First row */}
+            {/* Type filter chips */}
             {[
-              "normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","rock","ghost","dragon","dark","steel","fairy",
+              "normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy",
             ].map((type) => (
               <button
                 key={type}
@@ -129,19 +129,6 @@ export default function PokemonListPage() {
                 {typeFilters.includes(type) && <span className={styles.checkmark}>✓</span>}
               </button>
             ))}
-            
-            {/* Second row for bug type */}
-            <div className={styles.typeChipsSecondRow}>
-              <button
-                type="button"
-                className={`${styles.chip} ${styles.bug} ${typeFilters.includes("bug") ? styles.chipActive : ""}`}
-                onClick={() => toggleTypeFilter("bug")}
-                title="Filter by bug type"
-              >
-                bug
-                {typeFilters.includes("bug") && <span className={styles.checkmark}>✓</span>}
-              </button>
-            </div>
           </div>
         </div>
 

@@ -8,7 +8,6 @@
  */
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Modal from "../../Modal.client";
 import { FavoriteToggle } from "../../../pokemon/favorites.client";
@@ -53,7 +52,6 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pokemonId, setPokemonId] = useState<string | null>(null);
-  const router = useRouter();
 
   // Unwrap the params Promise
   useEffect(() => {
@@ -76,9 +74,9 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
           throw new Error(`Failed to fetch Pokemon: ${response.status}`);
         }
         
-        const data: PokemonData = await response.json();
-        setPokemon(data);
-      } catch (err) {
+         const data: PokemonData = await response.json();
+         setPokemon(data);
+       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Failed to load Pokemon";
         setError(errorMessage);
         console.error("Error fetching Pokemon:", err);
@@ -90,15 +88,11 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
     fetchPokemon();
   }, [pokemonId]);
 
-  const handleClose = () => {
-    router.back();
-  };
-
   const formatDexNumber = (id: number) => `#${id.toString().padStart(3, "0")}`;
 
   if (loading) {
     return (
-      <Modal onClose={handleClose}>
+      <Modal>
         <div className={styles.wrapper}>
           <div>Loading Pokemon details...</div>
         </div>
@@ -108,7 +102,7 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
 
   if (error) {
     return (
-      <Modal onClose={handleClose}>
+      <Modal>
         <div className={styles.wrapper}>
           <div>Error: {error}</div>
         </div>
@@ -118,7 +112,7 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
 
   if (!pokemon) {
     return (
-      <Modal onClose={handleClose}>
+      <Modal>
         <div className={styles.wrapper}>
           <div>Pokemon not found</div>
         </div>
@@ -129,7 +123,7 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
   const imageUrl = pokemon.sprites.other["official-artwork"].front_default || pokemon.sprites.front_default;
 
   return (
-    <Modal onClose={handleClose}>
+    <Modal>
       <div className={styles.wrapper}>
         <div className={styles.card}>
           <div>
@@ -180,10 +174,10 @@ export default function PokemonModalPage({ params }: PokemonModalPageProps) {
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Modal>
-  );
+             </div>
+           </div>
+         </div>
+       </div>
+     </Modal>
+   );
 }

@@ -8,7 +8,6 @@
  */
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { FavoriteToggle } from "../favorites.client";
 import styles from "./pokemon-detail.module.css";
@@ -74,9 +73,9 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
           throw new Error(`Failed to fetch Pokemon: ${response.status}`);
         }
         
-        const data: PokemonData = await response.json();
-        setPokemon(data);
-      } catch (err) {
+         const data: PokemonData = await response.json();
+         setPokemon(data);
+       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Failed to load Pokemon";
         setError(errorMessage);
         console.error("Error fetching Pokemon:", err);
@@ -101,10 +100,8 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   if (error) {
     return (
       <div className={styles.wrapper}>
-        <Link href="/pokemon" className={styles.back}>
-          ← Back to Pokemon List
-        </Link>
         <div>Error: {error}</div>
+        <button onClick={() => window.location.reload()}>Retry</button>
       </div>
     );
   }
@@ -112,9 +109,6 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   if (!pokemon) {
     return (
       <div className={styles.wrapper}>
-        <Link href="/pokemon" className={styles.back}>
-          ← Back to Pokemon List
-        </Link>
         <div>Pokemon not found</div>
       </div>
     );
@@ -124,10 +118,6 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
 
   return (
     <div className={styles.wrapper}>
-      <Link href="/pokemon" className={styles.back}>
-        ← Back to Pokemon List
-      </Link>
-      
       <div className={styles.card}>
         <div>
           <Image
@@ -179,6 +169,7 @@ export default function PokemonDetailPage({ params }: PokemonDetailPageProps) {
             </ul>
           </div>
         </div>
+        
       </div>
     </div>
   );

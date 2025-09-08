@@ -121,10 +121,5 @@
   margin-left: 6px;
 }
 
-@media (max-width: 768px) {
-  .card {
-    grid-template-columns: 1fr;
-  }
-}
 
 

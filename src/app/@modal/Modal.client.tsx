@@ -5,10 +5,9 @@ import styles from "./modal.module.css";
 
 type ModalProps = {
   children: React.ReactNode;
-  onClose: () => void;
 };
 
-export default function Modal({ children, onClose }: ModalProps) {
+export default function Modal({ children }: ModalProps) {
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
 

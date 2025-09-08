@@ -15,6 +15,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import SearchBar from "./search-bar";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,8 +57,10 @@ export default function RootLayout({
             </Suspense>
           </nav>
         </header>
-        <main className={styles.main}>{children}</main>
-        {modal}
+        <ErrorBoundary>
+          <main className={styles.main}>{children}</main>
+          {modal}
+        </ErrorBoundary>
       </body>
     </html>
   );

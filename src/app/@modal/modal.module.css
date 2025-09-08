@@ -46,7 +46,7 @@
   border-radius: 14px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 95vh;
   overflow: auto;
   position: relative;
   transform: scale(0.95) translateY(-20px);
@@ -172,8 +172,5 @@
   background: #374151;
 }
 
-@media (max-width: 768px) {
-  .modalBody { grid-template-columns: 1fr; }
-}
 
 
