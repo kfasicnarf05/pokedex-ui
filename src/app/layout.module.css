@@ -21,20 +21,56 @@
   text-decoration: none;
   font-weight: 800;
   letter-spacing: 0.5px;
-}
-
-.navLinks {
   display: flex;
-  gap: 14px;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
 }
 
-.navLink {
+.brand:hover {
+  color: #1d4ed8;
+}
+
+.brandIcon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .brandIcon {
+  transform: rotate(15deg);
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.search {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #475569;
+  border-radius: 50px;
+  outline: none;
   color: #0b1021;
-  text-decoration: none;
+  background: #ffffff;
+  padding-left: 36px;
 }
 
-.navLink:hover {
-  color: #3b82f6;
+.search::placeholder {
+  color: #4b5563;
+}
+
+.search:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
 
 .main {

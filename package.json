@@ -9,9 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/react-window": "^1.8.8",
     "next": "15.5.2",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "react-window": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

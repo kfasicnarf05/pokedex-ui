@@ -1,8 +1,20 @@
-import type { Metadata } from "next";
+/**
+ * Root Layout Component
+ * 
+ * This is the main layout component that wraps all pages in the application.
+ * It includes the header with navigation, search bar, and provides the modal slot
+ * for intercepting routes. The layout uses CSS modules for styling and includes
+ * Google Fonts (Geist Sans and Mono) for typography.
+ */
+
+"use client";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./layout.module.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import SearchBar from "./search-bar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,31 +26,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Pokédex Resource Explorer",
-  description: "Search, filter, sort, and favorite Pokémon using the PokéAPI.",
-};
-
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/pokeball.svg" type="image/svg+xml" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <header className={styles.header}>
           <nav className={styles.nav} aria-label="Primary">
             <Link href="/" className={styles.brand} aria-label="Go to home">
-              Pokédex
+              <Image 
+                src="/pokeball.svg" 
+                alt="Pokeball" 
+                width={24} 
+                height={24} 
+                className={styles.brandIcon}
+              />
+              Pokédex Resource Explorer
             </Link>
-            <div className={styles.navLinks}>
-              <Link href="/pokemon" className={styles.navLink}>Pokémon</Link>
-              <Link href="/favorites" className={styles.navLink}>Favorites</Link>
-            </div>
+            <Suspense fallback={<div className={styles.searchWrap}><span className={styles.searchIcon}>🔍</span><input placeholder="Search Pokémon..." className={styles.search} disabled /></div>}>
+              <SearchBar />
+            </Suspense>
           </nav>
         </header>
         <main className={styles.main}>{children}</main>
+        {modal}
       </body>
     </html>
   );
