@@ -3,7 +3,7 @@
 A modern, responsive Pokemon exploration app built with Next.js 15, TypeScript, and CSS Modules. Features real-time search, filtering, sorting, and detailed Pokemon information with modal overlays.
 
 **Made by [KFAquinoDev](https://kfadev-portfolio.vercel.app/)**
-
+Hosted Preview Link: https://kfaquinodev-pokedex-ui.vercel.app/pokemon
 ## 🚀 Features
 
 ### Core Features
